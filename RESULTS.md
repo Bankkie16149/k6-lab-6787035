@@ -11,3 +11,8 @@
 - Step 0.6, exit code of the normal run and of the run with P95=300:
   - Exit code (normal run): 0
   - Exit code (P95=300): 99
+- Step 0.7, rules that passed, p(95), p(99), exit code after your change:
+  - Rules that passed: ผ่านครบทุกกฎ (http_req_failed, p(95)<1000, p(99)<1500, checks)
+  - Measured p(95): 396.82ms
+  - Measured p(99): 413.9ms
+  - Exit code after change to fail: 99
