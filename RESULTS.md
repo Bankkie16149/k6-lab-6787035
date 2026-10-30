@@ -16,3 +16,6 @@
   - Measured p(95): 396.82ms
   - Measured p(99): 413.9ms
   - Exit code after change to fail: 99
+- Step 0.8, what was wrong, and how the checks showed it:
+  - สิ่งที่ผิดพลาด: ค่าใน excludedIngredients และ excludedTools ในคำขอเริ่มต้นสะกดด้วยตัวพิมพ์เล็ก ('pepperoni' และ 'knife') ซึ่ง API ของ QuickPizza เป็น Case-sensitive และคาดหวังชื่อที่ขึ้นต้นด้วยตัวพิมพ์ใหญ่ ('Pepperoni' และ 'Knife') ตามที่ตรวจพบจาก explore.js ส่งผลให้ API ไม่ได้ตัดส่วนผสมและอุปกรณ์ดังกล่าวออก และยังคงสุ่มพิซซ่าที่มี Pepperoni หรือใช้ Knife มาให้ลูกค้า
+  - ทำไม Load Test ถึงเจอบั๊กนี้ได้ดีกว่าการยิง Manual รอบเดียว: เพราะระบบสุ่ม (random) วัตถุดิบและอุปกรณ์ ถ้าเรากดทดสอบมือ (Manual) เพียง 1-2 ครั้ง เราอาจจะบังเอิญสุ่มได้พิซซ่าชนิดอื่นที่ไม่ใช่ Pepperoni ทำให้เข้าใจผิดว่าเงื่อนไข exclusion ทำงานถูกต้องแล้ว แต่เมื่อรันด้วย Load Test หลายๆ รอบพร้อมกัน (5 VUs, 20s) จะทำให้เกิดการสุ่มซ้ำๆ หลายสิบครั้ง จนพบเคสที่หลุด Pepperoni หรือ Knife ออกมา และ Check ฟ้องความผิดพลาดให้เห็นได้ทันทีครับ
